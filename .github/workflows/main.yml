@@ -1,0 +1,46 @@
+name: Send Email
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Nombre'
+        required: true
+      email:
+        description: 'Correo electrónico'
+        required: true
+      message:
+        description: 'Mensaje'
+        required: true
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enviar correo electrónico
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const nodemailer = require('nodemailer');
+            const transporter = nodemailer.createTransport({
+              host: 'smtp.gmail.com',
+              port: 587,
+              secure: false,
+              auth: {
+                user: 'ovaldez79@gmail.com',
+                pass: 'fgwb pfhs emvd kjqz'
+              }
+            });
+            const mailOptions = {
+              from: 'ovaldez79@gmail.com',
+              to: 'ovaldez79@hotmail.com',
+              subject: 'Mensaje de contacto',
+              text: Nombre: ${github.event.inputs.name}\nCorreo electrónico: ${github.event.inputs.email}\nMensaje: ${github.event.inputs.message}
+            };
+            transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log('Correo electrónico enviado con éxito');
+              }
+            });
