@@ -1,0 +1,28 @@
+name: Enviar correo con HTML
+
+on:
+  workflow_dispatch:
+
+jobs:
+  send_email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enviar correo HTML
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "Notificación automática"
+          to: destinatario@ejemplo.com
+          from: remitente@ejemplo.com
+          content_type: text/html
+          body: |
+            <h1>¡Hola!</h1>
+            <p>Este es un <b>correo automático</b> enviado desde un workflow de GitHub Actions.</p>
+            <ul>
+              <li>Elemento 1</li>
+              <li>Elemento 2</li>
+            </ul>
+          secure: true
