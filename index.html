@@ -16,25 +16,21 @@
         <button type="submit">Enviar</button>
     </form>
 
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <script>
-    const form = document.getElementById('contact-form');
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const message = document.getElementById('message').value;
-        const response = await fetch('/.netlify/functions/send-email', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name, email, message })
-        });
-        if (response.ok) {
-        alert('Correo electrónico enviado con éxito');
-        } else {
-        alert('Error al enviar el correo electrónico');
-        }
+    (function(){
+        emailjs.init('zv57j_8N-94edLJFJ'); // Reemplaza TU_PUBLIC_KEY por tu clave pública de EmailJS
+    })();
+
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        emailjs.sendForm('service_zl985ef', 'template_edlbomb', this)
+            .then(function() {
+                alert('Correo enviado con éxito');
+            }, function(error) {
+                alert('Error al enviar el correo: ' + JSON.stringify(error));
+            });
     });
     </script>
 </body>
